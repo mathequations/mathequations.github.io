@@ -60,10 +60,9 @@
         button.roblox-play-green { background: #00b06f; border: 1px solid #008f5a; color: #ffffff; }
         button.roblox-play-green:hover { background: #00c77e; }
 
-        .roblox-frame-container { width: 100%; height: 650px; border: 1px solid #393b3d; background: #000000; position: relative; overflow: hidden; }
-        
-        /* FIX: Added explicit black background to stop the white flash block during load */
-        iframe { width: 100%; height: 100%; border: none; display: block; background: #000000; }
+        /* Sizing Fixes */
+        .roblox-frame-container { width: 100%; height: 650px; border: 1px solid #393b3d; background: #000000; position: relative; overflow: hidden; display: flex; align-items: stretch; justify-content: stretch; }
+        iframe { width: 100%; height: 100%; border: none; display: block; background: #000000; flex: 1; }
     </style>
 </head>
 <body id="body-context">
@@ -118,17 +117,14 @@
             </div>
             
             <div class="roblox-grid">
-                
                 <div class="roblox-card" onclick="launchGame('game1')">
-                    <img src="https://play-lh.googleusercontent.com/a7R5nyeaX8lIEWdBOxjlvbyq9LcFwh3XMvNtBPEKR3LPGgdvgGrec4sJwn8tUaaSkw" alt="Game 1">
-                    <div class="roblox-card-title">Chess with AI</div>
+                    <img src="https://static.wikia.nocookie.net/territorial/images/e/e6/Site-logo.png/revision/latest?cb=20230727171424" alt="Game 1">
+                    <div class="roblox-card-title">Territorial Sandbox</div>
                 </div>
-
                 <div class="roblox-card" onclick="launchGame('game2')">
                     <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300" alt="Game 2">
                     <div class="roblox-card-title">Cyber Racer</div>
                 </div>
-
             </div>
         </div>
 
@@ -171,11 +167,19 @@
         
         const iframe = document.getElementById('game-runner');
         
+        // Safety Fallback Check
+        if (typeof gameDatabase === 'undefined') {
+            iframe.srcdoc = "<h2 style='color:white;text-align:center;padding-top:50px;'>Error: games.js file was not found or failed to load.</h2>";
+            return;
+        }
+
         const rawCode = gameDatabase[gameKey];
         
         if(rawCode) {
             const blob = new Blob([rawCode], { type: 'text/html' });
             iframe.src = URL.createObjectURL(blob);
+        } else {
+            iframe.srcdoc = "<h2 style='color:white;text-align:center;padding-top:50px;'>Error: Game key not found in database.</h2>";
         }
     }
 
