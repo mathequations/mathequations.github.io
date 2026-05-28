@@ -3,68 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Launcher</title>
+    <title>My Game Arcade</title>
     <style>
-        /* Forces the launcher and the game to take up the absolute entire screen */
+        * {
+            box-sizing: border-box;
+        }
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #000;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
-            font-family: sans-serif;
+            display: flex;
         }
 
-        /* Container designed to hold the game string data perfectly */
+        /* Sidebar Interface */
+        #sidebar {
+            width: 250px;
+            background-color: #1e1e1e;
+            border-right: 2px solid #2d2d2d;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        #sidebar h2 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #00ff99;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #2d2d2d;
+            padding-bottom: 10px;
+        }
+
+        .game-btn {
+            background-color: #2a2a2a;
+            color: #fff;
+            border: 1px solid #3a3a3a;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .game-btn:hover {
+            background-color: #00ff99;
+            color: #121212;
+            border-color: #00ff99;
+            transform: translateX(3px);
+        }
+
+        .game-btn.active {
+            background-color: #00ff99;
+            color: #121212;
+            border-color: #00ff99;
+        }
+
+        /* Game Display Viewport */
+        #main-viewport {
+            flex-grow: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #0a0a0a;
+            position: relative;
+        }
+
         #game-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        iframe {
             width: 100%;
             height: 100%;
             border: none;
             display: block;
         }
-
-        /* If you are using an iframe to inject the game, this keeps it full screen */
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            overflow: hidden;
-        }
     </style>
 </head>
 <body>
 
-    <div id="game-container"></div>
+    <div id="sidebar">
+        <h2>Arcade</h2>
+        <button class="game-btn" onclick="switchGame('game1', this)">Territorial.io</button>
+    </div>
+
+    <div id="main-viewport">
+        <div id="game-container"></div>
+    </div>
 
     <script src="games.js"></script>
 
     <script>
-        // Main function to launch the game safely
-        function launchGame(gameId) {
+        function switchGame(gameId, buttonElement) {
             const container = document.getElementById('game-container');
             
-            // 1. Verify the game exists in your database object
-            if (gameDatabase && gameDatabase[gameId]) {
-                
-                // 2. Create a clean blob URL to safely load the full HTML string as a complete document
-                const gameHtmlString = gameDatabase[gameId];
-                const blob = new Blob([gameHtmlString], { type: 'text/html' });
-                const gameUrl = URL.createObjectURL(blob);
-                
-                // 3. Inject a completely clean, borderless iframe taking up 100% of the viewport
-                container.innerHTML = `<iframe src="${gameUrl}" allow="autoplay; fullscreen"></iframe>`;
-                
-                // NOTE: The ugly "game 1 loaded" text insertion logic has been completely wiped out here.
-                
+            // Toggle highlight on navigation buttons
+            const buttons = document.querySelectorAll('.game-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
+
+            // Extract string text and isolate safely into a clean fullscreen iframe
+            if (typeof gameDatabase !== 'undefined' && gameDatabase[gameId]) {
+                const rawHtmlString = gameDatabase[gameId];
+                const blob = new Blob([rawHtmlString], { type: 'text/html' });
+                const blobUrl = URL.createObjectURL(blob);
+
+                // Injects the game frame directly with zero debug text strings
+                container.innerHTML = `<iframe src="${blobUrl}" allow="autoplay; fullscreen"></iframe>`;
             } else {
-                container.innerHTML = `<div style="color: white; padding: 20px;">Error: Game data for "${gameId}" could not be found.</div>`;
+                container.innerHTML = `<div style="color: red; padding: 20px;">Error: Data for key "${gameId}" missing or empty.</div>`;
             }
         }
 
-        // Automatically boot up game1 (Territorial.io) when the page loads
+        // Auto-run game1 smoothly when page boots up
         window.addEventListener('DOMContentLoaded', () => {
-            launchGame('game1');
+            const firstBtn = document.querySelector('.game-btn');
+            switchGame('game1', firstBtn);
         });
     </script>
 </body>
