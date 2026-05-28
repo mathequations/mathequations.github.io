@@ -3,138 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Game Arcade</title>
+    <title>DeltaMath | Advanced Analytics & Equation Learning</title>
     <style>
         * {
             box-sizing: border-box;
-        }
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #121212;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            display: flex;
+            border-radius: 0px !important; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background 0.15s ease, transform 0.15s ease;
         }
 
-        /* Sidebar Interface */
-        #sidebar {
-            width: 250px;
-            background-color: #1e1e1e;
-            border-right: 2px solid #2d2d2d;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            flex-shrink: 0;
+        body { background-color: #f7f9fa; color: #111111; margin: 0; padding: 0; }
+
+        .nav-bar {
+            background-color: #ffffff; border-bottom: 2px solid #111111;
+            padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
         }
 
-        #sidebar h2 {
-            margin-top: 0;
-            font-size: 22px;
-            color: #00ff99;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #2d2d2d;
-            padding-bottom: 10px;
+        .nav-logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -1px; }
+        .nav-links { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 600; color: #555555; }
+        .wrapper { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+
+        .hero-section {
+            display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px;
+            background: #ffffff; border: 2px solid #111111; padding: 40px; margin-bottom: 30px;
         }
 
-        .game-btn {
-            background-color: #2a2a2a;
-            color: #fff;
-            border: 1px solid #3a3a3a;
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-align: left;
-            font-size: 15px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
+        .hero-text h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin: 0 0 15px 0; letter-spacing: -1px; }
+        .hero-text p { font-size: 1.1rem; color: #444444; line-height: 1.6; margin-bottom: 25px; }
+        .section-title { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; border-left: 5px solid #111111; padding-left: 10px; }
+         
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .feature-box { background: #ffffff; border: 2px solid #111111; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
+        .feature-box h3 { margin: 0 0 10px 0; font-size: 1.3rem; font-weight: 700; }
+        .feature-box p { font-size: 0.95rem; color: #565656; line-height: 1.5; margin-bottom: 20px; }
+        .tag { display: inline-block; background: #111111; color: #ffffff; padding: 4px 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; align-self: flex-start; }
 
-        .game-btn:hover {
-            background-color: #00ff99;
-            color: #121212;
-            border-color: #00ff99;
-            transform: translateX(3px);
-        }
+        button { background-color: #111111; color: #ffffff; border: 2px solid #111111; padding: 14px 28px; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; width: fit-content; }
+        button:hover { background-color: #ffffff; color: #111111; }
+        input[type="text"] { border: 2px solid #111111; padding: 14px; font-size: 1rem; width: 100%; max-width: 350px; outline: none; }
+        .hidden { display: none !important; }
 
-        .game-btn.active {
-            background-color: #00ff99;
-            color: #121212;
-            border-color: #00ff99;
-        }
+        /* ROBLOX INTERFACE STYLE */
+        .roblox-theme { background-color: #191b1d !important; color: #ffffff !important; min-height: 100vh; }
+        .roblox-header { border-bottom: 1px solid #393b3d; padding-bottom: 15px; margin-bottom: 25px; }
+        .roblox-header h2 { font-size: 1.6rem; font-weight: 700; margin: 0; color: #ffffff; }
 
-        /* Game Display Viewport */
-        #main-viewport {
-            flex-grow: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            background-color: #0a0a0a;
-            position: relative;
-        }
+        .roblox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+        .roblox-card { background: #252729; border: 1px solid #393b3d; padding: 10px; cursor: pointer; }
+        .roblox-card:hover { background: #2f3133; transform: translateY(-2px); }
+        .roblox-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border: 1px solid #393b3d; margin-bottom: 12px; }
+        .roblox-card-title { font-size: 0.95rem; font-weight: 600; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; text-align: center; }
 
-        #game-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
+        .roblox-player-controls { display: flex; gap: 10px; margin-top: 15px; }
+        button.roblox-btn { background: #393b3d; border: 1px solid #555759; color: #ffffff; font-size: 0.85rem; padding: 10px 20px; }
+        button.roblox-btn:hover { background: #4f5153; }
+        button.roblox-play-green { background: #00b06f; border: 1px solid #008f5a; color: #ffffff; }
+        button.roblox-play-green:hover { background: #00c77e; }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
+        .roblox-frame-container { width: 100%; height: 650px; border: 1px solid #393b3d; background: #000000; position: relative; overflow: hidden; }
+        
+        /* FIX: Added explicit black background to stop the white flash block during load */
+        iframe { width: 100%; height: 100%; border: none; display: block; background: #000000; }
     </style>
 </head>
-<body>
+<body id="body-context">
 
-    <div id="sidebar">
-        <h2>Arcade</h2>
-        <button class="game-btn" onclick="switchGame('game1', this)">Territorial.io</button>
+    <div class="nav-bar" id="main-nav">
+        <div class="nav-logo">Δ DELTAMATH</div>
+        <div class="nav-links"><span>CURRICULUM</span><span>RESEARCH</span><span>INSTITUTIONS</span><span>ABOUT US</span></div>
     </div>
 
-    <div id="main-viewport">
-        <div id="game-container"></div>
+    <div class="wrapper">
+
+        <div id="math-homepage">
+            <div class="hero-section">
+                <div class="hero-text">
+                    <h1>Stochastic Models and Dynamic Systems</h1>
+                    <p>An elite mathematical processing library designed for modern vector tracking, variable multi-integration, and deep geometric matrix transformation parsing.</p>
+                    <button onclick="goToPasscode()">Start Learning Now</button>
+                </div>
+                <div style="background: #fafafa; border: 1px dashed #111111; padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                    <strong style="font-size: 1.1rem;">System Update Notice</strong>
+                    <p style="font-size: 0.85rem; margin: 10px 0;">V3.4 math processing modules are online.</p>
+                    <span style="font-size: 0.8rem; font-weight: bold; color: green;">● ALL CORE SERVERS OPERATIONAL</span>
+                </div>
+            </div>
+
+            <div class="section-title">Explore Core Interactive Modules</div>
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <div><div class="tag">Module 01</div><h3>Calculus III Integrators</h3><p>Evaluate multiple coordinate spaces natively.</p></div>
+                    <button onclick="goToPasscode()" style="font-size: 0.8rem; padding: 8px 16px;">Initialize Module</button>
+                </div>
+                <div class="feature-box">
+                    <div><div class="tag">Module 02</div><h3>Linear Matrix Inversions</h3><p>Analyze vector workspaces across environments.</p></div>
+                    <button onclick="goToPasscode()" style="font-size: 0.8rem; padding: 8px 16px;">Initialize Module</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="passcode-page" class="hidden" style="background: #ffffff; border: 2px solid #111111; padding: 40px;">
+            <h2 style="font-size: 1.8rem; font-weight: 800; margin-top: 0;">AUTHENTICATION GATEWAY</h2>
+            <p>Enter the passcode for this website:</p>
+            <div style="display: flex; gap: 15px; margin-top: 25px;">
+                <input type="text" id="passcode-input" placeholder="Enter Access Passcode">
+                <button onclick="checkPasscode()">Verify Access</button>
+            </div>
+            <p id="error-msg" style="color: #cc0000; font-weight: 700; font-size: 0.9rem; margin-top: 20px; display: none;">ACCESS DENIED.</p>
+        </div>
+
+        <div id="games-portal" class="hidden">
+            <div class="roblox-header">
+                <h2>Games / Discover Experiences</h2>
+            </div>
+            
+            <div class="roblox-grid">
+                
+                <div class="roblox-card" onclick="launchGame('game1')">
+                    <img src="https://play-lh.googleusercontent.com/a7R5nyeaX8lIEWdBOxjlvbyq9LcFwh3XMvNtBPEKR3LPGgdvgGrec4sJwn8tUaaSkw" alt="Game 1">
+                    <div class="roblox-card-title">Chess with AI</div>
+                </div>
+
+                <div class="roblox-card" onclick="launchGame('game2')">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300" alt="Game 2">
+                    <div class="roblox-card-title">Cyber Racer</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="game-display-view" class="hidden">
+            <div class="roblox-frame-container" id="fullscreen-target">
+                <iframe id="game-runner" src=""></iframe>
+            </div>
+
+            <div class="roblox-player-controls">
+                <button class="roblox-btn" onclick="backToGames()">← Leave Game</button>
+                <button class="roblox-btn roblox-play-green" onclick="goFullscreen()">Fullscreen Mode</button>
+            </div>
+        </div>
+
     </div>
 
-    <script src="games.js"></script>
+<script src="games.js"></script>
 
-    <script>
-        function switchGame(gameId, buttonElement) {
-            const container = document.getElementById('game-container');
-            
-            // Toggle highlight on navigation buttons
-            const buttons = document.querySelectorAll('.game-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            if (buttonElement) {
-                buttonElement.classList.add('active');
-            }
+<script>
+    function goToPasscode() {
+        document.getElementById('math-homepage').classList.add('hidden');
+        document.getElementById('passcode-page').classList.remove('hidden');
+    }
 
-            // Extract string text and isolate safely into a clean fullscreen iframe
-            if (typeof gameDatabase !== 'undefined' && gameDatabase[gameId]) {
-                const rawHtmlString = gameDatabase[gameId];
-                const blob = new Blob([rawHtmlString], { type: 'text/html' });
-                const blobUrl = URL.createObjectURL(blob);
-
-                // Injects the game frame directly with zero debug text strings
-                container.innerHTML = `<iframe src="${blobUrl}" allow="autoplay; fullscreen"></iframe>`;
-            } else {
-                container.innerHTML = `<div style="color: red; padding: 20px;">Error: Data for key "${gameId}" missing or empty.</div>`;
-            }
+    function checkPasscode() {
+        const input = document.getElementById('passcode-input').value;
+        if (input === 'kege geir') {
+            document.getElementById('passcode-page').classList.add('hidden');
+            document.getElementById('games-portal').classList.remove('hidden');
+            document.getElementById('body-context').classList.add('roblox-theme');
+            document.getElementById('main-nav').style.display = 'none';
+        } else {
+            document.getElementById('error-msg').style.display = 'block';
         }
+    }
 
-        // Auto-run game1 smoothly when page boots up
-        window.addEventListener('DOMContentLoaded', () => {
-            const firstBtn = document.querySelector('.game-btn');
-            switchGame('game1', firstBtn);
-        });
-    </script>
+    function launchGame(gameKey) {
+        document.getElementById('games-portal').classList.add('hidden');
+        document.getElementById('game-display-view').classList.remove('hidden');
+        
+        const iframe = document.getElementById('game-runner');
+        
+        const rawCode = gameDatabase[gameKey];
+        
+        if(rawCode) {
+            const blob = new Blob([rawCode], { type: 'text/html' });
+            iframe.src = URL.createObjectURL(blob);
+        }
+    }
+
+    function backToGames() {
+        document.getElementById('game-display-view').classList.add('hidden');
+        document.getElementById('games-portal').classList.remove('hidden');
+        document.getElementById('game-runner').src = ""; 
+    }
+
+    function goFullscreen() {
+        const target = document.getElementById('fullscreen-target');
+        if (target.requestFullscreen) { target.requestFullscreen(); }
+        else if (target.webkitRequestFullscreen) { target.webkitRequestFullscreen(); }
+        else if (target.msRequestFullscreen) { target.msRequestFullscreen(); }
+    }
+</script>
 </body>
 </html>
