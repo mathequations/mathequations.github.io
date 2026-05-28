@@ -3,115 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeltaMath | Advanced Analytics & Equation Learning</title>
+    <title>WebCalc v2.1 - Online Scientific Calculator</title>
     <style>
         * {
             box-sizing: border-box;
-            border-radius: 0px !important; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            transition: background 0.15s ease, transform 0.15s ease;
+            font-family: "MS Sans Serif", Geneva, sans-serif, Arial;
         }
 
-        body { background-color: #f7f9fa; color: #111111; margin: 0; padding: 0; }
-
-        .nav-bar {
-            background-color: #ffffff; border-bottom: 2px solid #111111;
-            padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
+        body { 
+            background-color: #d4d0c8; 
+            color: #000000; 
+            margin: 0; 
+            padding: 0; 
         }
 
-        .nav-logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -1px; }
-        .nav-links { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 600; color: #555555; }
-        .wrapper { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
-
-        .hero-section {
-            display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px;
-            background: #ffffff; border: 2px solid #111111; padding: 40px; margin-bottom: 30px;
+        /* RETRO CALCULATOR LANDING PAGE */
+        .retro-wrapper {
+            max-width: 450px;
+            margin: 50px auto;
+            background: #d4d0c8;
+            border-top: 2px solid #ffffff;
+            border-left: 2px solid #ffffff;
+            border-right: 2px solid #808080;
+            border-bottom: 2px solid #808080;
+            padding: 15px;
+            box-shadow: 1px 1px 0px #000000;
         }
 
-        .hero-text h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin: 0 0 15px 0; letter-spacing: -1px; }
-        .hero-text p { font-size: 1.1rem; color: #444444; line-height: 1.6; margin-bottom: 25px; }
-        .section-title { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; border-left: 5px solid #111111; padding-left: 10px; }
-         
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .feature-box { background: #ffffff; border: 2px solid #111111; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
-        .feature-box h3 { margin: 0 0 10px 0; font-size: 1.3rem; font-weight: 700; }
-        .feature-box p { font-size: 0.95rem; color: #565656; line-height: 1.5; margin-bottom: 20px; }
-        .tag { display: inline-block; background: #111111; color: #ffffff; padding: 4px 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; align-self: flex-start; }
+        .retro-title-bar {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: #ffffff;
+            padding: 4px 8px;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
 
-        button { background-color: #111111; color: #ffffff; border: 2px solid #111111; padding: 14px 28px; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; width: fit-content; }
-        button:hover { background-color: #ffffff; color: #111111; }
-        input[type="text"] { border: 2px solid #111111; padding: 14px; font-size: 1rem; width: 100%; max-width: 350px; outline: none; }
+        .retro-screen {
+            width: 100%;
+            height: 55px;
+            background: #c0c0c0;
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #002200;
+            text-align: right;
+            padding: 10px;
+            font-weight: bold;
+            outline: none;
+        }
+
+        .retro-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .retro-grid button {
+            padding: 15px 0;
+            font-size: 14px;
+            font-weight: bold;
+            background: #d4d0c8;
+            border-top: 2px solid #ffffff;
+            border-left: 2px solid #ffffff;
+            border-right: 2px solid #808080;
+            border-bottom: 2px solid #808080;
+            cursor: pointer;
+        }
+
+        .retro-grid button:active {
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+            padding-top: 16px;
+            padding-left: 1px;
+        }
+
+        .retro-grid button.clear-btn { color: #ff0000; }
+        .retro-grid button.op-btn { color: #0000ff; }
+        .retro-grid button.eq-btn { color: #000000; background: #b5b0a5; }
+
+        .retro-footer {
+            text-align: center;
+            font-size: 11px;
+            color: #555555;
+            margin-top: 15px;
+            border-top: 1px solid #808080;
+            padding-top: 8px;
+        }
+
         .hidden { display: none !important; }
 
-        /* ROBLOX INTERFACE STYLE */
-        .roblox-theme { background-color: #191b1d !important; color: #ffffff !important; min-height: 100vh; }
-        .roblox-header { border-bottom: 1px solid #393b3d; padding-bottom: 15px; margin-bottom: 25px; }
-        .roblox-header h2 { font-size: 1.6rem; font-weight: 700; margin: 0; color: #ffffff; }
+        /* MODERN ROBLOX THEME INTERFACE */
+        .roblox-theme { background-color: #191b1d !important; color: #ffffff !important; min-height: 100vh; padding: 20px; }
+        .roblox-header { border-bottom: 1px solid #393b3d; padding-bottom: 15px; margin-bottom: 25px; max-width: 1200px; margin-left: auto; margin-right: auto; }
+        .roblox-header h2 { font-size: 1.6rem; font-weight: 700; margin: 0; color: #ffffff; font-family: sans-serif; }
 
+        .roblox-wrapper { max-width: 1200px; margin: 0 auto; }
         .roblox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
         .roblox-card { background: #252729; border: 1px solid #393b3d; padding: 10px; cursor: pointer; }
         .roblox-card:hover { background: #2f3133; transform: translateY(-2px); }
         .roblox-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border: 1px solid #393b3d; margin-bottom: 12px; }
-        .roblox-card-title { font-size: 0.95rem; font-weight: 600; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; text-align: center; }
+        .roblox-card-title { font-size: 0.95rem; font-weight: 600; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; text-align: center; font-family: sans-serif; }
 
         .roblox-player-controls { display: flex; gap: 10px; margin-top: 15px; }
-        button.roblox-btn { background: #393b3d; border: 1px solid #555759; color: #ffffff; font-size: 0.85rem; padding: 10px 20px; }
+        button.roblox-btn { background: #393b3d; border: 1px solid #555759; color: #ffffff; font-size: 0.85rem; padding: 10px 20px; border-radius: 3px; cursor: pointer; font-family: sans-serif; }
         button.roblox-btn:hover { background: #4f5153; }
         button.roblox-play-green { background: #00b06f; border: 1px solid #008f5a; color: #ffffff; }
         button.roblox-play-green:hover { background: #00c77e; }
 
-        /* Sizing Fixes */
         .roblox-frame-container { width: 100%; height: 650px; border: 1px solid #393b3d; background: #000000; position: relative; overflow: hidden; display: flex; align-items: stretch; justify-content: stretch; }
         iframe { width: 100%; height: 100%; border: none; display: block; background: #000000; flex: 1; }
     </style>
 </head>
 <body id="body-context">
 
-    <div class="nav-bar" id="main-nav">
-        <div class="nav-logo">Δ DELTAMATH</div>
-        <div class="nav-links"><span>CURRICULUM</span><span>RESEARCH</span><span>INSTITUTIONS</span><span>ABOUT US</span></div>
+    <!-- THE DISGUISE FRONT PAGE -->
+    <div id="calculator-page" style="padding-top: 40px;">
+        <div class="retro-wrapper">
+            <div class="retro-title-bar">
+                <span>WebCalc Engine v2.1</span>
+                <span>[X]</span>
+            </div>
+            
+            <input type="text" class="retro-screen" id="calc-display" readonly value="0">
+            
+            <div class="retro-grid">
+                <button class="clear-btn" onclick="clearCalc()">C</button>
+                <button class="op-btn" onclick="pressOp('(')">(</button>
+                <button class="op-btn" onclick="pressOp(')')">)</button>
+                <button class="op-btn" onclick="pressOp('/')">/</button>
+
+                <button onclick="pressNum('7')">7</button>
+                <button onclick="pressNum('8')">8</button>
+                <button onclick="pressNum('9')">9</button>
+                <button class="op-btn" onclick="pressOp('*')">*</button>
+
+                <button onclick="pressNum('4')">4</button>
+                <button onclick="pressNum('5')">5</button>
+                <button onclick="pressNum('6')">6</button>
+                <button class="op-btn" onclick="pressOp('-')">-</button>
+
+                <button onclick="pressNum('1')">1</button>
+                <button onclick="pressNum('2')">2</button>
+                <button onclick="pressNum('3')">3</button>
+                <button class="op-btn" onclick="pressOp('+')">+</button>
+
+                <button onclick="pressNum('0')">0</button>
+                <button onclick="pressNum('.')">.</button>
+                <button class="eq-btn" style="grid-column: span 2;" onclick="calculateResult()">=</button>
+            </div>
+            
+            <div class="retro-footer">
+                Standard JavaScript Math Emulator Engine © 2010
+            </div>
+        </div>
     </div>
 
-    <div class="wrapper">
-
-        <div id="math-homepage">
-            <div class="hero-section">
-                <div class="hero-text">
-                    <h1>Stochastic Models and Dynamic Systems</h1>
-                    <p>An elite mathematical processing library designed for modern vector tracking, variable multi-integration, and deep geometric matrix transformation parsing.</p>
-                    <button onclick="goToPasscode()">Start Learning Now</button>
-                </div>
-                <div style="background: #fafafa; border: 1px dashed #111111; padding: 20px; display: flex; flex-direction: column; justify-content: center;">
-                    <strong style="font-size: 1.1rem;">System Update Notice</strong>
-                    <p style="font-size: 0.85rem; margin: 10px 0;">V3.4 math processing modules are online.</p>
-                    <span style="font-size: 0.8rem; font-weight: bold; color: green;">● ALL CORE SERVERS OPERATIONAL</span>
-                </div>
-            </div>
-
-            <div class="section-title">Explore Core Interactive Modules</div>
-            <div class="feature-grid">
-                <div class="feature-box">
-                    <div><div class="tag">Module 01</div><h3>Calculus III Integrators</h3><p>Evaluate multiple coordinate spaces natively.</p></div>
-                    <button onclick="goToPasscode()" style="font-size: 0.8rem; padding: 8px 16px;">Initialize Module</button>
-                </div>
-                <div class="feature-box">
-                    <div><div class="tag">Module 02</div><h3>Linear Matrix Inversions</h3><p>Analyze vector workspaces across environments.</p></div>
-                    <button onclick="goToPasscode()" style="font-size: 0.8rem; padding: 8px 16px;">Initialize Module</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="passcode-page" class="hidden" style="background: #ffffff; border: 2px solid #111111; padding: 40px;">
-            <h2 style="font-size: 1.8rem; font-weight: 800; margin-top: 0;">AUTHENTICATION GATEWAY</h2>
-            <p>Enter the passcode for this website:</p>
-            <div style="display: flex; gap: 15px; margin-top: 25px;">
-                <input type="text" id="passcode-input" placeholder="Enter Access Passcode">
-                <button onclick="checkPasscode()">Verify Access</button>
-            </div>
-            <p id="error-msg" style="color: #cc0000; font-weight: 700; font-size: 0.9rem; margin-top: 20px; display: none;">ACCESS DENIED.</p>
-        </div>
-
-        <div id="games-portal" class="hidden">
+    <!-- CLEAN INTERFACE CONTAINER (Stays hidden until triggered) -->
+    <div id="portal-container" class="hidden roblox-wrapper">
+        
+        <!-- GAMES PORTAL -->
+        <div id="games-portal">
             <div class="roblox-header">
                 <h2>Games / Discover Experiences</h2>
             </div>
@@ -128,6 +188,7 @@
             </div>
         </div>
 
+        <!-- GAME DISPLAY CONTAINER -->
         <div id="game-display-view" class="hidden">
             <div class="roblox-frame-container" id="fullscreen-target">
                 <iframe id="game-runner" src=""></iframe>
@@ -144,21 +205,55 @@
 <script src="games.js"></script>
 
 <script>
-    function goToPasscode() {
-        document.getElementById('math-homepage').classList.add('hidden');
-        document.getElementById('passcode-page').classList.remove('hidden');
+    let currentInput = "";
+
+    function pressNum(num) {
+        if (document.getElementById('calc-display').value === "0") {
+            currentInput = num;
+        } else {
+            currentInput += num;
+        }
+        document.getElementById('calc-display').value = currentInput;
     }
 
-    function checkPasscode() {
-        const input = document.getElementById('passcode-input').value;
-        if (input === 'kege geir') {
-            document.getElementById('passcode-page').classList.add('hidden');
-            document.getElementById('games-portal').classList.remove('hidden');
-            document.getElementById('body-context').classList.add('roblox-theme');
-            document.getElementById('main-nav').style.display = 'none';
-        } else {
-            document.getElementById('error-msg').style.display = 'block';
+    function pressOp(op) {
+        currentInput += op;
+        document.getElementById('calc-display').value = currentInput;
+    }
+
+    function clearCalc() {
+        currentInput = "";
+        document.getElementById('calc-display').value = "0";
+    }
+
+    function calculateResult() {
+        // TRAPDOOR: Hit 98 exactly to shift out of the 2010 theme
+        if (currentInput === "98") {
+            unlockArcade();
+            return;
         }
+
+        try {
+            let result = Function('"use strict";return (' + currentInput + ')')();
+            document.getElementById('calc-display').value = result;
+            currentInput = result.toString();
+        } catch (error) {
+            document.getElementById('calc-display').value = "Error";
+            currentInput = "";
+        }
+    }
+
+    // Listens for physical keyboard Enter button inside calculator screen
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !document.getElementById('calculator-page').classList.contains('hidden')) {
+            calculateResult();
+        }
+    });
+
+    function unlockArcade() {
+        document.getElementById('calculator-page').classList.add('hidden');
+        document.getElementById('portal-container').classList.remove('hidden');
+        document.getElementById('body-context').classList.add('roblox-theme');
     }
 
     function launchGame(gameKey) {
@@ -167,9 +262,8 @@
         
         const iframe = document.getElementById('game-runner');
         
-        // Safety Fallback Check
         if (typeof gameDatabase === 'undefined') {
-            iframe.srcdoc = "<h2 style='color:white;text-align:center;padding-top:50px;'>Error: games.js file was not found or failed to load.</h2>";
+            iframe.srcdoc = "<h2 style='color:white;text-align:center;padding-top:50px;font-family:sans-serif;'>Error: games.js missing.</h2>";
             return;
         }
 
@@ -179,7 +273,7 @@
             const blob = new Blob([rawCode], { type: 'text/html' });
             iframe.src = URL.createObjectURL(blob);
         } else {
-            iframe.srcdoc = "<h2 style='color:white;text-align:center;padding-top:50px;'>Error: Game key not found in database.</h2>";
+            iframe.srcdoc = "<h2 style='color:white;text-align:center;padding-top:50px;font-family:sans-serif;'>Error: Game not found.</h2>";
         }
     }
 
